@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Music</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-left">
+            <div class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="navigation-buttons">
+                <button class="nav-btn back-btn" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn forward-btn" disabled>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="搜索" class="search-input">
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <button class="profile-btn">
+                <div class="profile-avatar">A</div>
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fab fa-apple"></i>
+                    <span>Music</span>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item active">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>主页</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-compass"></i>
+                                <span>浏览</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-broadcast-tower"></i>
+                                <span>广播</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="library-section">
+                    <div class="library-header">
+                        <h3>资料库</h3>
+                        <button class="add-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <ul class="library-list">
+                        <li class="library-item">
+                            <i class="fas fa-clock"></i>
+                            <span>最近播放</span>
+                        </li>
+                        <li class="library-item">
+                            <i class="fas fa-music"></i>
+                            <span>歌曲</span>
+                        </li>
+                        <li class="library-item">
+                            <i class="fas fa-compact-disc"></i>
+                            <span>专辑</span>
+                        </li>
+                        <li class="library-item">
+                            <i class="fas fa-user"></i>
+                            <span>艺人</span>
+                        </li>
+                        <li class="library-item">
+                            <i class="fas fa-list"></i>
+                            <span>播放列表</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>本地音乐库</h1>
+                <div class="music-controls">
+                    <div class="auto-load-status">
+                        <i class="fas fa-sync-alt"></i> 自动识别music文件夹中的音乐
+                    </div>
+                    <label for="musicFiles" class="manual-load-btn" style="display: none;">
+                        <i class="fas fa-folder-open"></i> 手动加载文件
+                    </label>
+                    <input type="file" id="musicFiles" accept="audio/*,.lrc,.jpg,.jpeg,.png,.gif,.webp" multiple style="display: none;">
+                </div>
+            </div>
+            
+            <!-- 当前播放歌曲详情和歌词显示 -->
+            <section class="now-playing-section" id="nowPlayingSection" style="display: none;">
+                <div class="now-playing-details">
+                    <div class="large-cover">
+                        <img id="largeCover" src="https://via.placeholder.com/300x300/ff6b9d/ffffff?text=♪" alt="专辑封面">
+                    </div>
+                    <div class="song-meta">
+                        <h2 id="largeSongTitle">选择一首歌曲开始播放</h2>
+                        <h3 id="largeSongArtist">未知艺人</h3>
+                        <p id="largeSongAlbum">未知专辑</p>
+                    </div>
+                </div>
+                <div class="lyrics-container">
+                    <div class="lyrics-display" id="lyricsDisplay">
+                        <p class="no-lyrics">暂无歌词</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 本地音乐列表 -->
+            <section class="local-music-section">
+                <h2>我的音乐 (<span id="musicCount">0</span>)</h2>
+                <div class="music-list" id="musicList">
+                    <div class="empty-library">
+                        <i class="fas fa-music"></i>
+                        <p>还没有添加任何音乐</p>
+                        <p>点击上方的"加载音乐文件"按钮添加您的音乐</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 推荐音乐区域 -->
+            <section class="featured-section">
+                <h2>为你推荐</h2>
+                <div class="album-grid">
+                    <div class="album-card">
+                        <div class="album-cover">
+                            <img src="https://via.placeholder.com/200x200/ff6b9d/ffffff?text=专辑1" alt="专辑封面">
+                            <div class="play-overlay">
+                                <button class="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3>热门歌曲精选</h3>
+                            <p>各种艺人</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-cover">
+                            <img src="https://via.placeholder.com/200x200/4ecdc4/ffffff?text=专辑2" alt="专辑封面">
+                            <div class="play-overlay">
+                                <button class="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3>流行音乐榜</h3>
+                            <p>Apple Music 流行音乐</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-cover">
+                            <img src="https://via.placeholder.com/200x200/45b7d1/ffffff?text=专辑3" alt="专辑封面">
+                            <div class="play-overlay">
+                                <button class="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3>摇滚经典</h3>
+                            <p>经典摇滚合集</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-cover">
+                            <img src="https://via.placeholder.com/200x200/96ceb4/ffffff?text=专辑4" alt="专辑封面">
+                            <div class="play-overlay">
+                                <button class="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3>放松音乐</h3>
+                            <p>轻松愉快的音乐</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 最近播放 -->
+            <section class="recent-section">
+                <h2>最近播放</h2>
+                <div class="song-list">
+                    <div class="song-item">
+                        <div class="song-cover">
+                            <img src="https://via.placeholder.com/50x50/ff6b9d/ffffff?text=♪" alt="歌曲封面">
+                        </div>
+                        <div class="song-info">
+                            <h4>歌曲名称 1</h4>
+                            <p>艺人名称</p>
+                        </div>
+                        <div class="song-duration">3:45</div>
+                        <div class="song-actions">
+                            <button class="action-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="song-item">
+                        <div class="song-cover">
+                            <img src="https://via.placeholder.com/50x50/4ecdc4/ffffff?text=♪" alt="歌曲封面">
+                        </div>
+                        <div class="song-info">
+                            <h4>歌曲名称 2</h4>
+                            <p>艺人名称</p>
+                        </div>
+                        <div class="song-duration">4:12</div>
+                        <div class="song-actions">
+                            <button class="action-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 底部播放器 -->
+    <footer class="player">
+        <div class="player-left">
+            <div class="current-song">
+                <div class="song-cover">
+                    <img src="https://via.placeholder.com/60x60/ff6b9d/ffffff?text=♪" alt="当前播放" id="currentSongCover">
+                </div>
+                <div class="song-details">
+                    <h4 id="currentSongTitle">歌曲名称</h4>
+                    <p id="currentSongArtist">艺人名称</p>
+                </div>
+            </div>
+            <div class="player-left-controls">
+                <button class="control-btn">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="control-btn">
+                    <i class="fas fa-picture-in-picture"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="player-center">
+            <div class="player-controls">
+                <button class="control-btn">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn play-pause-btn" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-btn">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            <div class="progress-container">
+                <span class="time-display" id="currentTime">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                        <div class="progress-thumb" id="progressThumb"></div>
+                    </div>
+                </div>
+                <span class="time-display" id="totalTime">0:00</span>
+            </div>
+        </div>
+        
+        <div class="player-right">
+            <button class="control-btn">
+                <i class="fas fa-quote-left"></i>
+            </button>
+            <button class="control-btn">
+                <i class="fas fa-list"></i>
+            </button>
+            <button class="control-btn">
+                <i class="fas fa-desktop"></i>
+            </button>
+            <div class="volume-control">
+                <button class="control-btn volume-btn">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <div class="volume-bar">
+                    <div class="volume-track">
+                        <div class="volume-fill"></div>
+                        <div class="volume-thumb"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
